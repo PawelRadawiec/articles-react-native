@@ -1,6 +1,7 @@
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { ArticleProvider } from './src/context/ArticleContext';
 import ArticleDetailsScreen from './src/screens/ArticleDetailsScreen';
 import ArticlesScreen from './src/screens/ArticlesScreen';
 
@@ -20,5 +21,9 @@ const navigator = createStackNavigator(
 const App = createAppContainer(navigator);
 
 export default () => {
-  return <App />;
+  return (
+    <ArticleProvider>
+      <App />
+    </ArticleProvider>
+  );
 };
