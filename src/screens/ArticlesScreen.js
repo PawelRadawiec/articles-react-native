@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import Article from '../components/Article';
 
-const ArticlesScreen = () => {
+const ArticlesScreen = ({ navigation }) => {
   const [articles, setArticles] = useState([
     {
       id: Math.floor(Math.random() * 99999),
-      title: '"Bomba atomowa" premiera: blokada Green Dealu. Tak wygląda wojna o pokój z Unią',
+      title:
+        '"Bomba atomowa" premiera: blokada Green Dealu. Tak wygląda wojna o pokój z Unią',
       description:
         'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati',
       imageUrl:
@@ -19,7 +20,7 @@ const ArticlesScreen = () => {
         'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati',
       imageUrl:
         'http://v.wpimg.pl/ODI1MDQuYCUoUzt3fg5tMGsLby04V2NmPBN3Zn5EfXR5SXtzZFo8ImRQKSk4GyY3PUMsJzsUYTM5UikqfwUjazpFIjYwEip2ZlcoJSUAPSEtbiI2OBImKihdYnJgQnpyKlR7d2hGeSB4bn91YU19cXkFYy4hEm05',
-    }
+    },
   ]);
   return (
     <View style={styles.articles}>
@@ -31,7 +32,7 @@ const ArticlesScreen = () => {
           renderItem={({ item }) => {
             return (
               <View>
-                <Article article={item} />
+                <Article article={item} navigate={navigation.navigate} />
               </View>
             );
           }}
