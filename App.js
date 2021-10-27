@@ -13,7 +13,7 @@ const navigator = createStackNavigator(
   {
     initialRouteName: 'Articles',
     defaultNavigationOptions: {
-      title: 'Blogs',
+      title: 'Top articles',
     },
   }
 );
