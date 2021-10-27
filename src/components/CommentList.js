@@ -1,23 +1,27 @@
 import React from 'react';
-import { View, FlatList, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, FlatList, Text, StyleSheet } from 'react-native';
 import Comment from './Comment';
 
 const CommentList = ({ comments }) => {
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.containerTitle}>Comments</Text>
       <FlatList
         data={comments}
         keyExtractor={(comment) => comment.id}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
           return <Comment comment={item} />;
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   containerTitle: {
     fontSize: 15,
     fontWeight: 'bold',

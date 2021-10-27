@@ -21,6 +21,7 @@ const ArticleDetailsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 10,
+    flex: 1,
   },
   title: {
     fontSize: 18,

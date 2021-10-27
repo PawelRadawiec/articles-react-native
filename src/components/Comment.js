@@ -14,7 +14,7 @@ const Comment = ({ comment }) => {
           <Text style={styles.ratingCount}>{comment.rating?.negative}</Text>
         </View>
       </View>
-      <Text>{comment.content}</Text>
+      <Text style={styles.content}>{comment.content}</Text>
     </View>
   );
 };
@@ -22,13 +22,11 @@ const Comment = ({ comment }) => {
 const styles = StyleSheet.create({
   comment: {
     marginBottom: 5,
-    borderTopWidth: 1,
-    borderTopColor: 'grey',
   },
   commentHeader: {
-    marginTop: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginVertical: 5,
   },
   commentIcons: {
     flexDirection: 'row',
@@ -41,7 +39,11 @@ const styles = StyleSheet.create({
   author: {
     fontSize: 15,
     fontWeight: 'bold',
-    marginRight: 5,
+  },
+  content: {
+    backgroundColor: '#D6D6D6',
+    borderRadius: 5,
+    padding: 5,
   },
 });
 
