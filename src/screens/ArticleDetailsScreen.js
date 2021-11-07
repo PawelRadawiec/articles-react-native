@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import CommentList from '../components/CommentList';
 import ArticleContext from '../context/ArticleContext';
 
 const ArticleDetailsScreen = ({ navigation }) => {
-  const { data } = useContext(ArticleContext);
+  const {
+    state: { articles },
+  } = useContext(ArticleContext);
   const id = navigation.getParam('id');
-  const article = data.find((article) => article.id === id);
+  const article = articles.find((article) => article.id === id);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{article.title}</Text>
@@ -21,7 +23,6 @@ const ArticleDetailsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 10,
-    flex: 1,
   },
   title: {
     fontSize: 18,

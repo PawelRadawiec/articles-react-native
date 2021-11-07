@@ -5,13 +5,13 @@ import ArticleContext from '../context/ArticleContext';
 
 const ArticlesScreen = ({ navigation }) => {
   const {
-    state: { isLoading, articles },
+    state: { loading, articles },
     actions: { getAll },
   } = useContext(ArticleContext);
   useEffect(async () => await getAll(), []);
   return (
     <View style={styles.articles}>
-      {!isLoading ? (
+      {!loading ? (
         <View>
           <FlatList
             data={articles}

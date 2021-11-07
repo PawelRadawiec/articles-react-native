@@ -3,7 +3,7 @@ import ArticlesApi from '../api/Articles';
 
 const defaultState = {
   articles: [],
-  isLoading: false,
+  loading: false,
 };
 
 const ArticleContext = React.createContext();
@@ -11,7 +11,7 @@ const ArticleContext = React.createContext();
 const articleReducer = (state, action) => {
   switch (action.type) {
     case 'SET_LOADING':
-      return { ...state, isLoading: action.payload };
+      return { ...state, loading: action.payload };
     case 'GET_ALL':
       return { ...state, articles: action.payload };
     default:
@@ -28,9 +28,20 @@ export const ArticleProvider = ({ children }) => {
     dispatch({ type: 'GET_ALL', payload: response.data });
     dispatch({ type: 'SET_LOADING', payload: false });
   };
-  
+
+  const addArticle = async (article) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    try {
+      await ArticlesApi.post('/article', article);
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+    dispatch({ type: 'SET_LOADING', payload: false });
+  };
+
   return (
-    <ArticleContext.Provider value={{ state, actions: {getAll} }}>
+    <ArticleContext.Provider value={{ state, actions: { getAll, addArticle } }}>
       {children}
     </ArticleContext.Provider>
   );
