@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import ArticleImage from '../components/ArticleImage';
 
 const Article = ({ article, navigate }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigate('Details', {id: article.id})}>
+      <TouchableOpacity onPress={() => navigate('Details', { id: article._id })}>
         <Text style={styles.title}>{article.title}</Text>
       </TouchableOpacity>
-      <Image style={styles.image} source={{ uri: article.imageUrl }} />
+      <ArticleImage uri={article.image?.uri} />
       <Text style={styles.rating}>4.5/5</Text>
       <Text style={styles.description}>{article.description}</Text>
     </View>
@@ -24,10 +25,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  image: {
-    height: 200,
     marginBottom: 5,
   },
   rating: {

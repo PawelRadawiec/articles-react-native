@@ -6,15 +6,15 @@ const Comment = ({ comment }) => {
   return (
     <View style={styles.comment}>
       <View style={styles.commentHeader}>
-        <Text style={styles.author}>{comment.author}</Text>
+        <Text style={styles.author}>{comment?.author}</Text>
         <View style={styles.commentIcons}>
           <MaterialIcons name="thumb-up" size={24} color="green" />
-          <Text style={styles.ratingCount}>{comment.rating?.positive}</Text>
+          <Text style={styles.ratingCount}>{comment?.rating?.positive}</Text>
           <MaterialIcons name="thumb-down" size={24} color="red" />
-          <Text style={styles.ratingCount}>{comment.rating?.negative}</Text>
+          <Text style={styles.ratingCount}>{comment?.rating?.negative}</Text>
         </View>
       </View>
-      <Text style={styles.content}>{comment.content}</Text>
+      <Text style={styles.content}>{comment?.content}</Text>
     </View>
   );
 };
