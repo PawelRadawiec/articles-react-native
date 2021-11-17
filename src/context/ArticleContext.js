@@ -3,6 +3,7 @@ import ArticlesApi from '../api/Articles';
 
 const defaultState = {
   articles: [],
+  selectedArticle: null,
   loading: false,
 };
 
@@ -14,6 +15,8 @@ const articleReducer = (state, action) => {
       return { ...state, loading: action.payload };
     case 'GET_ALL':
       return { ...state, articles: action.payload };
+    case 'SET_SELECTED':
+      return { ...state, selectedArticle: action.payload };
     default:
       return state;
   }
@@ -40,8 +43,14 @@ export const ArticleProvider = ({ children }) => {
     dispatch({ type: 'SET_LOADING', payload: false });
   };
 
+  const setSelectedArticle = (article) => {
+    dispatch({ type: 'SET_SELECTED', payload: article });
+  };
+
   return (
-    <ArticleContext.Provider value={{ state, actions: { getAll, addArticle } }}>
+    <ArticleContext.Provider
+      value={{ state, actions: { getAll, addArticle, setSelectedArticle } }}
+    >
       {children}
     </ArticleContext.Provider>
   );

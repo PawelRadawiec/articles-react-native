@@ -1,22 +1,46 @@
-import React, { useContext } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import CommentList from '../components/CommentList';
+import React, { useContext, useEffect, useState } from 'react';
+import { Linking, StyleSheet, Text, View } from 'react-native';
 import ArticleContext from '../context/ArticleContext';
 import ArticleImage from '../components/ArticleImage';
+import { Button } from 'react-native-elements';
 
 const ArticleDetailsScreen = ({ navigation }) => {
+  const [commentsDisabled, setCommentDisabled] = useState(false);
   const {
-    state: { articles },
+    state: { selectedArticle },
+    actions,
   } = useContext(ArticleContext);
-  const id = navigation.getParam('id');
-  const article = articles.find((article) => article._id === id);
+
+  useEffect(() => {
+    setCommentDisabled(
+      !selectedArticle.comments ||
+        (selectedArticle.comments && selectedArticle.comments.length === 0)
+    );
+    return () => {
+      actions.setSelectedArticle(null);
+    };
+  }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{article?.title}</Text>
-      <ArticleImage uri={article?.image?.uri} />
+      <Text style={styles.title}>{selectedArticle?.title}</Text>
+      <ArticleImage uri={selectedArticle?.image?.uri} />
       <Text style={styles.rating}>4.5/5</Text>
-      <Text style={styles.description}>{article?.description}</Text>
-      <CommentList comments={article?.comments} />
+      <Text style={styles.centerTitle}>Source</Text>
+      <Text
+        style={styles.source}
+        onPress={() => Linking.openURL(selectedArticle.source)}
+      >
+        {selectedArticle?.source}
+      </Text>
+      <Text style={styles.centerTitle}>Description</Text>
+      <Text style={styles.description}>{selectedArticle?.description}</Text>
+      <Button
+        title="Go to comments"
+        onPress={() => {
+          navigation.navigate('Comments');
+        }}
+        disabled={commentsDisabled}
+      />
     </View>
   );
 };
@@ -24,7 +48,7 @@ const ArticleDetailsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 10,
-    flex: 1
+    flex: 1,
   },
   title: {
     fontSize: 18,
@@ -36,6 +60,14 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 5,
+  },
+  centerTitle: {
+    alignSelf: 'center',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  source: {
+    color: 'blue',
   },
 });
 

@@ -13,6 +13,7 @@ const ArticleForm = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUri, setImageUri] = useState('');
+  const [source, setSource] = useState('');
   useEffect(() => {
     const unsubscribe = navigation.addListener('didFocus', () => {
       setTitle('');
@@ -37,6 +38,11 @@ const ArticleForm = ({ navigation }) => {
         placeholder="Description"
       />
       <Input
+        value={source}
+        onChangeText={(value) => setSource(value?.trim())}
+        placeholder="Source"
+      />
+      <Input
         value={imageUri}
         onChangeText={(value) => setImageUri(value?.trim())}
         placeholder="Image uri"
@@ -46,7 +52,50 @@ const ArticleForm = ({ navigation }) => {
         title="Save"
         loading={loading}
         onPress={() =>
-          actions.addArticle({ title, description, image: { uri: imageUri } })
+          actions.addArticle({
+            title,
+            description,
+            source,
+            image: { uri: imageUri },
+            comments: [
+              {
+                author: 'John 1',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+                ratting: {
+                  positive: 124,
+                  negative: 9,
+                },
+              },
+              {
+                author: 'John 2',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+                ratting: {
+                  positive: 21,
+                  negative: 321,
+                },
+              },
+              {
+                author: 'John 3',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+                ratting: {
+                  positive: 54,
+                  negative: 34,
+                },
+              },
+              {
+                author: 'John 4',
+                content:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+                ratting: {
+                  positive: 341,
+                  negative: 2,
+                },
+              },
+            ],
+          })
         }
       />
     </SafeAreaView>

@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, FlatList, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { FlatList, Text, StyleSheet, SafeAreaView, View } from 'react-native';
 import Comment from './Comment';
 
 const CommentList = ({ comments }) => {
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <View>
       <Text style={styles.containerTitle}>Comments</Text>
       <FlatList
         data={comments}
@@ -14,7 +14,7 @@ const CommentList = ({ comments }) => {
           return <Comment comment={item} />;
         }}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
