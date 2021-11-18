@@ -24,7 +24,7 @@ const Article = ({ article, navigate }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 300,
+    width: 350,
     marginLeft: 10,
     borderBottomColor: 'grey',
     borderBottomWidth: 1,

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Text } from 'react-native';
-import Article from '../components/Article';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import ArticleContext from '../context/ArticleContext';
 import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ArticleList from '../components/ArticleList';
 
 const ArticlesScreen = ({ navigation }) => {
   const {
@@ -15,24 +15,13 @@ const ArticlesScreen = ({ navigation }) => {
     await getAll();
   }, []);
   return (
-    <View style={styles.articles}>
+    <View style={styles.container}>
       {!loading ? (
-        <View>
-          <FlatList
-            data={articles}
-            keyExtractor={(article) => article._id}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => {
-              return (
-                <View>
-                  <Article article={item} navigate={navigation.navigate} />
-                </View>
-              );
-            }}
-          />
-        </View>
+        <ArticleList navigation={navigation} articles={articles} />
       ) : (
-        <Text>Loading articles...</Text>
+        <View>
+          <ActivityIndicator size="large" color="#3b5998" />
+        </View>
       )}
     </View>
   );
@@ -65,10 +54,10 @@ ArticlesScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  articles: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  }
 });
 
 export default ArticlesScreen;
