@@ -5,20 +5,73 @@ import { Input, Text, Button } from 'react-native-elements';
 import ArticleImage from '../components/ArticleImage';
 import ArticleContext from '../context/ArticleContext';
 
+export const formErrorDefault = {
+  title: {
+    valid: true,
+    message: '',
+  },
+  description: {
+    valid: true,
+    message: '',
+  },
+  imageUri: {
+    valid: true,
+    message: '',
+  },
+  source: {
+    valid: true,
+    message: '',
+  },
+};
+
 const ArticleForm = ({ navigation }) => {
   const {
     state: { loading },
     actions,
   } = useContext(ArticleContext);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imageUri, setImageUri] = useState('');
-  const [source, setSource] = useState('');
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    imageUri: '',
+    source: '',
+  });
+  const [formError, setFormError] = useState(formErrorDefault);
+
+  const validateArticleForm = (article) => {
+    const formError = {};
+    const titleValid = article?.title && article.title.length > 5;
+    formError.title = {
+      valid: titleValid,
+      message: !titleValid ? 'Must be longer than 5' : null,
+    };
+    const descriptionValid =
+      article?.description && article.description.length > 20;
+    formError.description = {
+      valid: descriptionValid,
+      message: !descriptionValid ? 'Must be longer than 20' : null,
+    };
+    const imageUriValid = article?.imageUri && article.imageUri.length > 1;
+    formError.imageUri = {
+      valid: imageUriValid,
+      message: !imageUriValid ? 'Must be longer than 1' : null,
+    };
+    const sourceValid = article?.source && article.source.length > 5;
+    formError.source = {
+      valid: sourceValid,
+      message: !sourceValid ? 'Must be longer than 5' : null,
+    };
+    return formError;
+  };
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('didFocus', () => {
-      setTitle('');
-      setDescription('');
-      setImageUri('');
+      setForm({
+        title: '',
+        description: '',
+        imageUri: '',
+        source: '',
+      });
+      setFormError(formErrorDefault);
     });
     return unsubscribe;
   }, [navigation]);
@@ -28,76 +81,53 @@ const ArticleForm = ({ navigation }) => {
         Provide article data
       </Text>
       <Input
-        value={title}
-        onChangeText={(value) => setTitle(value?.trim())}
+        value={form.title}
+        onChangeText={(value) => setForm({ ...form, title: value?.trim() })}
         placeholder="Title"
+        errorMessage={!formError.title.valid ? formError.title.message : null}
       />
       <Input
-        value={description}
-        onChangeText={(value) => setDescription(value?.trim())}
+        value={form.description}
+        onChangeText={(value) =>
+          setForm({ ...form, description: value?.trim() })
+        }
         placeholder="Description"
+        errorMessage={
+          !formError.description.valid ? formError.description.message : null
+        }
       />
       <Input
-        value={source}
-        onChangeText={(value) => setSource(value?.trim())}
+        value={form.source}
+        onChangeText={(value) => setForm({ ...form, source: value?.trim() })}
         placeholder="Source"
+        errorMessage={!formError.source.valid ? formError.source.message : null}
       />
       <Input
-        value={imageUri}
-        onChangeText={(value) => setImageUri(value?.trim())}
+        value={form.imageUri}
+        onChangeText={(value) => setForm({ ...form, imageUri: value?.trim() })}
         placeholder="Image uri"
+        errorMessage={
+          !formError.imageUri.valid ? formError.imageUri.message : null
+        }
       />
-      <ArticleImage description="Article image preview" uri={imageUri} />
+      <ArticleImage description="Article image preview" uri={form.imageUri} />
       <Button
         title="Save"
         loading={loading}
         buttonStyle={{ backgroundColor: '#3b5998' }}
-        onPress={() =>
+        onPress={() => {
+          const formError = validateArticleForm(form);
+          setFormError(formError);
+          if (Object.keys(formError).find((key) => formError[key])) {
+            return;
+          }
           actions.addArticle({
-            title,
-            description,
-            source,
-            image: { uri: imageUri },
-            comments: [
-              {
-                author: 'John 1',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
-                ratting: {
-                  positive: 124,
-                  negative: 9,
-                },
-              },
-              {
-                author: 'John 2',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
-                ratting: {
-                  positive: 21,
-                  negative: 321,
-                },
-              },
-              {
-                author: 'John 3',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
-                ratting: {
-                  positive: 54,
-                  negative: 34,
-                },
-              },
-              {
-                author: 'John 4',
-                content:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
-                ratting: {
-                  positive: 341,
-                  negative: 2,
-                },
-              },
-            ],
-          })
-        }
+            title: form.title,
+            description: form.description,
+            source: form.source,
+            image: { uri: form.imageUri },
+          });
+        }}
       />
     </SafeAreaView>
   );
