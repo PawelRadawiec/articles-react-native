@@ -51,6 +51,7 @@ const ArticleForm = ({ navigation }) => {
       <Button
         title="Save"
         loading={loading}
+        buttonStyle={{ backgroundColor: '#3b5998' }}
         onPress={() =>
           actions.addArticle({
             title,

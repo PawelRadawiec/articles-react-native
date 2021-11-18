@@ -14,6 +14,19 @@ const CommentsScreen = () => {
   );
 };
 
+CommentsScreen.navigationOptions = () => {
+  return {
+    title: 'Comments',
+    headerStyle: {
+      backgroundColor: '#3b5998',
+    },
+    headerTitleStyle: {
+      color: 'white',
+    },
+    headerTintColor: 'white',
+  };
+};
+
 const styles = StyleSheet.create({});
 
 export default CommentsScreen;

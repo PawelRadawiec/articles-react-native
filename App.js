@@ -8,7 +8,7 @@ import ArticleDetailsScreen from './src/screens/ArticleDetailsScreen';
 import ArticlesScreen from './src/screens/ArticlesScreen';
 import ArticleCreate from './src/screens/ArticleCreateScreen';
 import AccountScreen from './src/screens/AccountScreen';
-import CommentsScreen from './src/screens/CommentsScreen'
+import CommentsScreen from './src/screens/CommentsScreen';
 
 const switchNavigator = createSwitchNavigator({
   mainScreens: createBottomTabNavigator({
@@ -16,11 +16,8 @@ const switchNavigator = createSwitchNavigator({
       screen: createStackNavigator({
         Articles: ArticlesScreen,
         Details: ArticleDetailsScreen,
-        Comments: CommentsScreen
+        Comments: CommentsScreen,
       }),
-      navigationOptions: {
-        title: 'Top articles',
-      },
     },
     Create: {
       screen: ArticleCreate,

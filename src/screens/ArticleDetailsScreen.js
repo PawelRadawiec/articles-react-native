@@ -40,9 +40,23 @@ const ArticleDetailsScreen = ({ navigation }) => {
           navigation.navigate('Comments');
         }}
         disabled={commentsDisabled}
+        buttonStyle={{ backgroundColor: '#3b5998' }}
       />
     </View>
   );
+};
+
+ArticleDetailsScreen.navigationOptions = () => {
+  return {
+    title: 'Details',
+    headerStyle: {
+      backgroundColor: '#3b5998',
+    },
+    headerTitleStyle: {
+      color: 'white',
+    },
+    headerTintColor: 'white',
+  };
 };
 
 const styles = StyleSheet.create({
