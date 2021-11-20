@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, StyleSheet, SafeAreaView, View } from 'react-native';
+import { FlatList, Text, StyleSheet, View } from 'react-native';
 import Comment from './Comment';
 
 const CommentList = ({ comments }) => {

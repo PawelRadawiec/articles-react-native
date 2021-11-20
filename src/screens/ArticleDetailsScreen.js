@@ -5,17 +5,12 @@ import ArticleImage from '../components/ArticleImage';
 import { Button } from 'react-native-elements';
 
 const ArticleDetailsScreen = ({ navigation }) => {
-  const [commentsDisabled, setCommentDisabled] = useState(false);
   const {
     state: { selectedArticle },
     actions,
   } = useContext(ArticleContext);
 
   useEffect(() => {
-    setCommentDisabled(
-      !selectedArticle.comments ||
-        (selectedArticle.comments && selectedArticle.comments.length === 0)
-    );
     return () => {
       actions.setSelectedArticle(null);
     };
@@ -39,7 +34,6 @@ const ArticleDetailsScreen = ({ navigation }) => {
         onPress={() => {
           navigation.navigate('Comments');
         }}
-        disabled={commentsDisabled}
         buttonStyle={{ backgroundColor: '#3b5998' }}
       />
     </View>

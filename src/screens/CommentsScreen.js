@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
+import CommentForm from '../components/CommentForm';
 import CommentList from '../components/CommentList';
 import ArticleContext from '../context/ArticleContext';
 
@@ -9,6 +10,7 @@ const CommentsScreen = () => {
   } = useContext(ArticleContext);
   return (
     <View>
+      <CommentForm />
       <CommentList comments={selectedArticle?.comments} />
     </View>
   );

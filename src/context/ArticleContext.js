@@ -27,7 +27,12 @@ export const ArticleProvider = ({ children }) => {
 
   const getAll = async () => {
     dispatch({ type: 'SET_LOADING', payload: true });
-    const response = await ArticlesApi.get('/articles');
+    let response;
+    try {
+      response = await ArticlesApi.get('/articles');
+    } catch (error) {
+      requestFailed(error);
+    }
     dispatch({ type: 'GET_ALL', payload: response.data });
     dispatch({ type: 'SET_LOADING', payload: false });
   };
@@ -37,8 +42,7 @@ export const ArticleProvider = ({ children }) => {
     try {
       await ArticlesApi.post('/article', article);
     } catch (error) {
-      console.log(error);
-      dispatch({ type: 'SET_LOADING', payload: false });
+      requestFailed(error);
     }
     dispatch({ type: 'SET_LOADING', payload: false });
   };
@@ -47,9 +51,37 @@ export const ArticleProvider = ({ children }) => {
     dispatch({ type: 'SET_SELECTED', payload: article });
   };
 
+  const requestFailed = (error) => {
+    console.log(error);
+    dispatch({ type: 'SET_LOADING', payload: false });
+  };
+
+  const addComment = async (comment) => {
+    const selectedArticle = state.selectedArticle;
+    // TODO - change author mock
+    selectedArticle.comments = [
+      ...selectedArticle.comments,
+      {
+        author: 'Alex',
+        content: comment,
+      },
+    ];
+    dispatch({ type: 'SET_LOADING', payload: true });
+    try {
+      const response = await ArticlesApi.put('/article', selectedArticle);
+      dispatch({ type: 'SET_SELECTED', payload: response.data });
+    } catch (error) {
+      requestFailed(error);
+    }
+    dispatch({ type: 'SET_LOADING', payload: false });
+  };
+
   return (
     <ArticleContext.Provider
-      value={{ state, actions: { getAll, addArticle, setSelectedArticle } }}
+      value={{
+        state,
+        actions: { getAll, addArticle, setSelectedArticle, addComment },
+      }}
     >
       {children}
     </ArticleContext.Provider>

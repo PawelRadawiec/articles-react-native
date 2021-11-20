@@ -24,6 +24,32 @@ export const formErrorDefault = {
   },
 };
 
+const validateArticleForm = (article) => {
+  const formError = {};
+  const titleValid = article?.title && article.title.length > 5;
+  formError.title = {
+    valid: titleValid,
+    message: !titleValid ? 'Must be longer than 5' : null,
+  };
+  const descriptionValid =
+    article?.description && article.description.length > 20;
+  formError.description = {
+    valid: descriptionValid,
+    message: !descriptionValid ? 'Must be longer than 20' : null,
+  };
+  const imageUriValid = article?.imageUri && article.imageUri.length > 1;
+  formError.imageUri = {
+    valid: imageUriValid,
+    message: !imageUriValid ? 'Must be longer than 1' : null,
+  };
+  const sourceValid = article?.source && article.source.length > 5;
+  formError.source = {
+    valid: sourceValid,
+    message: !sourceValid ? 'Must be longer than 5' : null,
+  };
+  return formError;
+};
+
 const ArticleForm = ({ navigation }) => {
   const {
     state: { loading },
@@ -36,32 +62,6 @@ const ArticleForm = ({ navigation }) => {
     source: '',
   });
   const [formError, setFormError] = useState(formErrorDefault);
-
-  const validateArticleForm = (article) => {
-    const formError = {};
-    const titleValid = article?.title && article.title.length > 5;
-    formError.title = {
-      valid: titleValid,
-      message: !titleValid ? 'Must be longer than 5' : null,
-    };
-    const descriptionValid =
-      article?.description && article.description.length > 20;
-    formError.description = {
-      valid: descriptionValid,
-      message: !descriptionValid ? 'Must be longer than 20' : null,
-    };
-    const imageUriValid = article?.imageUri && article.imageUri.length > 1;
-    formError.imageUri = {
-      valid: imageUriValid,
-      message: !imageUriValid ? 'Must be longer than 1' : null,
-    };
-    const sourceValid = article?.source && article.source.length > 5;
-    formError.source = {
-      valid: sourceValid,
-      message: !sourceValid ? 'Must be longer than 5' : null,
-    };
-    return formError;
-  };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('didFocus', () => {
