@@ -25,7 +25,7 @@ const CommentForm = () => {
   const [comment, setComment] = useState('');
   const [errorForm, setErrorForm] = useState(defaultErrorForm);
   const {
-    state: { selectedArticle, loading },
+    state: { loading },
     actions,
   } = useContext(ArticleContext);
   useEffect(() => {
