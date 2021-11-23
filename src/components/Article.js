@@ -4,7 +4,7 @@ import ArticleImage from '../components/ArticleImage';
 import ArticleContext from '../context/ArticleContext';
 
 const Article = ({ article, navigate }) => {
-  const { state, actions } = useContext(ArticleContext);
+  const { actions } = useContext(ArticleContext);
   return (
     <View style={styles.container}>
       <TouchableOpacity
