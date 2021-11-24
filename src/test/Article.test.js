@@ -1,19 +1,26 @@
 import React from 'react';
 import Article from '../components/Article';
 import ArticleContext from '../context/ArticleContext';
+import TestRenderer from 'react-test-renderer';
 import { TouchableOpacity, Text } from 'react-native';
 
-import TestRenderer from 'react-test-renderer';
-import { ArticleImage } from '../components/ArticleImage';
 
 describe('Article component tests', () => {
   let element;
+  let setSelectedArticleMock;
   beforeAll(() => {
+    setSelectedArticleMock = jest.fn((article) => {});
     element = new TestRenderer.create(
       (
-        <ArticleContext.Provider value={{ state: {}, actions: {} }}>
+        <ArticleContext.Provider
+          value={{
+            state: {},
+            actions: { setSelectedArticle: setSelectedArticleMock },
+          }}
+        >
           <Article
             article={{ title: 'Title test', description: 'Description test' }}
+            navigate={() => {}}
           />
         </ArticleContext.Provider>
       )
@@ -41,4 +48,11 @@ describe('Article component tests', () => {
     const titleText = textsEl?.[3]?.props?.children;
     expect(titleText).toEqual('Description test');
   });
+
+  it('shoule click title', () => {
+    const touchableOpacityEl = element.root.findByType(TouchableOpacity);
+    touchableOpacityEl.props.onPress();
+    expect(setSelectedArticleMock.mock.calls.length).toBe(1);
+  });
+
 });

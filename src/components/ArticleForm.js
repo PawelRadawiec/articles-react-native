@@ -118,7 +118,7 @@ const ArticleForm = ({ navigation }) => {
         onPress={() => {
           const formError = validateArticleForm(form);
           setFormError(formError);
-          if (Object.keys(formError).find((key) => formError[key])) {
+          if (Object.keys(formError).find((key) => !formError[key].valid)) {
             return;
           }
           actions.addArticle({
