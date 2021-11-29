@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Linking, StyleSheet, Text, View } from 'react-native';
 import ArticleContext from '../context/ArticleContext';
 import ArticleImage from '../components/ArticleImage';
 import { Button } from 'react-native-elements';
+import RateThumbs from '../components/RateThumbs';
 
 const ArticleDetailsScreen = ({ navigation }) => {
   const {
-    state: { selectedArticle },
+    state: { selectedArticle, articleRatingPending },
     actions,
   } = useContext(ArticleContext);
 
@@ -19,7 +20,16 @@ const ArticleDetailsScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>{selectedArticle?.title}</Text>
       <ArticleImage uri={selectedArticle?.image?.uri} />
-      <Text style={styles.rating}>4.5/5</Text>
+      <RateThumbs
+        ratingUp={() => {
+          actions.rateArticle(selectedArticle, 'POSITIVE');
+        }}
+        ratingDown={() => {
+          actions, actions.rateArticle(selectedArticle, 'NEGATIVE');
+        }}
+        rating={selectedArticle?.rating}
+        loading={articleRatingPending}
+      />
       <Text style={styles.centerTitle}>Source</Text>
       <Text
         style={styles.source}

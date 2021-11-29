@@ -5,6 +5,7 @@ const SET_LOADING = 'SET_LOADING';
 const GET_ALL = 'GET_ALL';
 const SET_SELECTED = 'SET_SELECTED';
 const SET_RATING_PENDING = 'SET_RATING_PENDING';
+const SET_ARTICLE_RATING_PENDING = 'SET_ARTICLE_RATING_PENDING';
 const SET_COMMENT_RATE_ID = 'SET_COMMENT_RATE_ID';
 
 const defaultState = {
@@ -12,6 +13,7 @@ const defaultState = {
   selectedArticle: null,
   commentRateId: null,
   commentRatingPending: false,
+  articleRatingPending: false,
   loading: false,
 };
 
@@ -29,6 +31,8 @@ const articleReducer = (state, action) => {
       return { ...state, commentRatingPending: action.payload };
     case SET_COMMENT_RATE_ID:
       return { ...state, commentRateId: action.payload };
+    case SET_ARTICLE_RATING_PENDING:
+      return { ...state, articleRatingPending: action.payload };
     default:
       return state;
   }
@@ -66,6 +70,7 @@ export const ArticleProvider = ({ children }) => {
   const requestFailed = (error) => {
     console.log(error);
     dispatch({ type: SET_LOADING, payload: false });
+    dispatch({ type: SET_ARTICLE_RATING_PENDING, payload: false });
   };
 
   const addComment = async (comment) => {
@@ -124,6 +129,33 @@ export const ArticleProvider = ({ children }) => {
     }
   };
 
+  const rateArticle = async (article, type) => {
+    if (!article.rating) {
+      article.rating = {
+        positive: 0,
+        negative: 0,
+      };
+    }
+    switch (type) {
+      case 'POSITIVE':
+        article.rating.positive += 1;
+        break;
+      case 'NEGATIVE':
+        article.rating.negative += 1;
+        break;
+      default:
+        return;
+    }
+    try {
+      dispatch({ type: SET_ARTICLE_RATING_PENDING, payload: true });
+      const response = await ArticlesApi.put('/article', article);
+      dispatch({ type: SET_ARTICLE_RATING_PENDING, payload: false });
+      dispatch({ type: SET_SELECTED, payload: response.data });
+    } catch (error) {
+      requestFailed(error);
+    }
+  };
+
   return (
     <ArticleContext.Provider
       value={{
@@ -134,6 +166,7 @@ export const ArticleProvider = ({ children }) => {
           setSelectedArticle,
           addComment,
           rateComment,
+          rateArticle,
         },
       }}
     >
