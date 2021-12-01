@@ -2,18 +2,29 @@ import React, { useContext } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import ArticleImage from '../components/ArticleImage';
 import ArticleContext from '../context/ArticleContext';
+import { DotIndicator } from 'react-native-indicators';
 
 const Article = ({ article, navigate }) => {
-  const { actions } = useContext(ArticleContext);
+  const {
+    state: { getByIdPending, loadingArticleId },
+    actions,
+  } = useContext(ArticleContext);
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          actions.setSelectedArticle(article);
-          navigate('Details');
+          if (!getByIdPending) {
+            actions.getArticleById(article._id, () => navigate('Details'));
+          }
         }}
       >
-        <Text style={styles.title}>{article.title}</Text>
+        <>
+          {getByIdPending && article._id === loadingArticleId ? (
+            <DotIndicator size={10} color="#3b5998" />
+          ) : (
+            <Text style={styles.title}>{article.title}</Text>
+          )}
+        </>
       </TouchableOpacity>
       <ArticleImage uri={article.image?.uri} />
       <Text style={styles.rating}>4.5/5</Text>

@@ -7,6 +7,7 @@ const SET_SELECTED = 'SET_SELECTED';
 const SET_RATING_PENDING = 'SET_RATING_PENDING';
 const SET_ARTICLE_RATING_PENDING = 'SET_ARTICLE_RATING_PENDING';
 const SET_COMMENT_RATE_ID = 'SET_COMMENT_RATE_ID';
+const SET_BY_ID_PENDING = 'SET_BY_ID_PENDING';
 
 const defaultState = {
   articles: [],
@@ -15,6 +16,8 @@ const defaultState = {
   commentRatingPending: false,
   articleRatingPending: false,
   loading: false,
+  loadingArticleId: null,
+  getByIdPending: false,
 };
 
 const ArticleContext = React.createContext();
@@ -33,6 +36,12 @@ const articleReducer = (state, action) => {
       return { ...state, commentRateId: action.payload };
     case SET_ARTICLE_RATING_PENDING:
       return { ...state, articleRatingPending: action.payload };
+    case SET_BY_ID_PENDING:
+      return {
+        ...state,
+        loadingArticleId: action.payload.id,
+        getByIdPending: action.payload.loading,
+      };
     default:
       return state;
   }
@@ -53,6 +62,21 @@ export const ArticleProvider = ({ children }) => {
     dispatch({ type: SET_LOADING, payload: false });
   };
 
+  const getArticleById = async (id, callback) => {
+    try {
+      dispatch({ type: SET_BY_ID_PENDING, payload: { loading: true, id } });
+      const article = await ArticlesApi.get(`/article/${id}`);
+      dispatch({ type: SET_SELECTED, payload: article.data });
+      callback();
+      dispatch({
+        type: SET_BY_ID_PENDING,
+        payload: { loading: false, id: null },
+      });
+    } catch (error) {
+      requestFailed(error);
+    }
+  };
+
   const addArticle = async (article) => {
     dispatch({ type: SET_LOADING, payload: true });
     try {
@@ -71,6 +95,10 @@ export const ArticleProvider = ({ children }) => {
     console.log(error);
     dispatch({ type: SET_LOADING, payload: false });
     dispatch({ type: SET_ARTICLE_RATING_PENDING, payload: false });
+    dispatch({
+      type: SET_BY_ID_PENDING,
+      payload: { loading: false, id: null },
+    });
   };
 
   const addComment = async (comment) => {
@@ -162,6 +190,7 @@ export const ArticleProvider = ({ children }) => {
         state,
         actions: {
           getAll,
+          getArticleById,
           addArticle,
           setSelectedArticle,
           addComment,
