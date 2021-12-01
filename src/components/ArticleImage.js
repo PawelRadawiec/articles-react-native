@@ -14,6 +14,7 @@ const ArticleImage = ({ uri, description }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor: '#ededed',
   },
   image: {
     width: 350,

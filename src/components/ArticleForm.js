@@ -82,15 +82,13 @@ const ArticleForm = ({ navigation }) => {
       </Text>
       <Input
         value={form.title}
-        onChangeText={(value) => setForm({ ...form, title: value?.trim() })}
+        onChangeText={(value) => setForm({ ...form, title: value })}
         placeholder="Title"
         errorMessage={!formError.title.valid ? formError.title.message : null}
       />
       <Input
         value={form.description}
-        onChangeText={(value) =>
-          setForm({ ...form, description: value?.trim() })
-        }
+        onChangeText={(value) => setForm({ ...form, description: value })}
         placeholder="Description"
         errorMessage={
           !formError.description.valid ? formError.description.message : null
@@ -98,13 +96,13 @@ const ArticleForm = ({ navigation }) => {
       />
       <Input
         value={form.source}
-        onChangeText={(value) => setForm({ ...form, source: value?.trim() })}
+        onChangeText={(value) => setForm({ ...form, source: value })}
         placeholder="Source"
         errorMessage={!formError.source.valid ? formError.source.message : null}
       />
       <Input
         value={form.imageUri}
-        onChangeText={(value) => setForm({ ...form, imageUri: value?.trim() })}
+        onChangeText={(value) => setForm({ ...form, imageUri: value })}
         placeholder="Image uri"
         errorMessage={
           !formError.imageUri.valid ? formError.imageUri.message : null
@@ -122,11 +120,11 @@ const ArticleForm = ({ navigation }) => {
             return;
           }
           actions.addArticle({
-            title: form.title,
-            description: form.description,
+            title: form.title.trim(),
+            description: form.description.trim(),
             source: form.source,
-            image: { uri: form.imageUri },
-          });
+            image: { uri: form.imageUri.trim() },
+          }, () => navigation.navigate('Articles'));
         }}
       />
     </SafeAreaView>

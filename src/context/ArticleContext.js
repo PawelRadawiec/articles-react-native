@@ -77,10 +77,12 @@ export const ArticleProvider = ({ children }) => {
     }
   };
 
-  const addArticle = async (article) => {
+  const addArticle = async (article, callback) => {
     dispatch({ type: SET_LOADING, payload: true });
     try {
       await ArticlesApi.post('/article', article);
+      await getAll();
+      callback();
     } catch (error) {
       requestFailed(error);
     }
