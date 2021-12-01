@@ -1,17 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons';
+import { DotIndicator } from 'react-native-indicators';
 
 export const RateThumbs = ({ rating, ratingUp, ratingDown, loading }) => {
   return (
     <View style={styles.container}>
       {loading ? (
-        <ActivityIndicator
-          style={styles.spinner}
-          size="small"
-          color="#3b5998"
-        />
+        <View>
+          <DotIndicator style={styles.spinner} size={10} color="#3b5998" />
+        </View>
       ) : (
         <>
           <TouchableOpacity
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   spinner: {
-    marginHorizontal: 25,
+    marginVertical: 12,
   },
 });
 

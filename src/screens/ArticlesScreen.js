@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import ArticleContext from '../context/ArticleContext';
 import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { DotIndicator } from 'react-native-indicators';
 import ArticleList from '../components/ArticleList';
 
 const ArticlesScreen = ({ navigation }) => {
@@ -20,7 +21,7 @@ const ArticlesScreen = ({ navigation }) => {
         <ArticleList navigation={navigation} articles={articles} />
       ) : (
         <View>
-          <ActivityIndicator size="large" color="#3b5998" />
+          <DotIndicator color="#3b5998" />
         </View>
       )}
     </View>
@@ -56,8 +57,8 @@ ArticlesScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default ArticlesScreen;
