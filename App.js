@@ -7,7 +7,6 @@ import { ArticleProvider } from './src/context/ArticleContext';
 import ArticleDetailsScreen from './src/screens/ArticleDetailsScreen';
 import ArticlesScreen from './src/screens/ArticlesScreen';
 import ArticleCreate from './src/screens/ArticleCreateScreen';
-import AccountScreen from './src/screens/AccountScreen';
 import CommentsScreen from './src/screens/CommentsScreen';
 
 const switchNavigator = createSwitchNavigator({
@@ -24,13 +23,7 @@ const switchNavigator = createSwitchNavigator({
       navigationOptions: {
         title: 'Add article',
       },
-    },
-    Account: {
-      screen: AccountScreen,
-      navigationOptions: {
-        title: 'Account',
-      },
-    },
+    }
   }),
 });
 
